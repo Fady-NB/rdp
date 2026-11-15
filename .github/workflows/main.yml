@@ -324,14 +324,14 @@ jobs:
       - name: Validate settings and scripts
         env:
           MINUTES: ${{ inputs.session_minutes }}
-          TS_KEY: ${{ secrets.TAILSCALE_AUTH_KEY }}
+          TS_KEY: ${{ secrets.TAILSCALE }}
           RD_PASSWORD: ${{ secrets.RUSTDESK_PASSWORD }}
         run: |
           $minutes = 0
           if (-not [int]::TryParse($env:MINUTES, [ref]$minutes) -or $minutes -lt 15 -or $minutes -gt 300) {
             throw 'Session duration must be an integer from 15 to 300.'
           }
-          if ([string]::IsNullOrWhiteSpace($env:TS_KEY)) { throw 'Add TAILSCALE_AUTH_KEY to repository secrets.' }
+          if ([string]::IsNullOrWhiteSpace($env:TS_KEY)) { throw 'Add TAILSCALE to repository secrets.' }
           if ($env:RD_PASSWORD.Length -lt 12 -or $env:RD_PASSWORD -match '[\r\n]') { throw 'Add RUSTDESK_PASSWORD: at least 12 characters, no line breaks.' }
           Get-ChildItem scripts,desktop -Filter *.ps1 -Recurse | ForEach-Object {
             $tokens = $null; $errors = $null
@@ -344,7 +344,7 @@ jobs:
       - name: Connect Tailscale and RustDesk
         timeout-minutes: 20
         env:
-          TS_KEY: ${{ secrets.TAILSCALE_AUTH_KEY }}
+          TS_KEY: ${{ secrets.TAILSCALE }}
           RD_PASSWORD: ${{ secrets.RUSTDESK_PASSWORD }}
           GH_TOKEN: ${{ github.token }}
         run: .\scripts\Setup-Remote.ps1
