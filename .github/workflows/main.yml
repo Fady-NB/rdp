@@ -53,13 +53,13 @@ jobs:
       - name: 🔧 Resolve inputs (safe)
         id: cfg
         env:
-          RAW_TAILNET:  ${{ inputs.ts_tailnet }}
-          RAW_APIKEY:   ${{ inputs.ts_api_key }}
-          RAW_AUTHKEY:  ${{ inputs.ts_authkey }}
-          RAW_PAT:      ${{ inputs.gh_api_token }}
-          RAW_TEST:     ${{ inputs.test_mode == true && 'true' || 'false' }}
-          RAW_RUNTIME:  ${{ inputs.runtime_minutes || '355' }}
-          RAW_LOOPS:    ${{ inputs.loops || '0' }}
+          RAW_TAILNET: '${{ inputs.ts_tailnet }}'
+          RAW_APIKEY: '${{ inputs.ts_api_key }}'
+          RAW_AUTHKEY: '${{ inputs.ts_authkey }}'
+          RAW_PAT: '${{ inputs.gh_api_token }}'
+          RAW_TEST: '${{ inputs.test_mode == true && 'true' || 'false' }}'
+          RAW_RUNTIME: '${{ inputs.runtime_minutes || '355' }}'
+          RAW_LOOPS: '${{ inputs.loops || '0' }}'
         run: |
           function ToIntOr($v, $def){ if("$v" -match '^\d+$'){[int]$v}else{[int]$def} }
 
